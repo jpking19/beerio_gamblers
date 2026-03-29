@@ -66,6 +66,21 @@
       color: #f0dcb0;
     }
 
+    .intro a,
+    .faq-answer a {
+      color: #ffc043;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
+    .intro a:hover,
+    .intro a:focus,
+    .faq-answer a:hover,
+    .faq-answer a:focus {
+      text-decoration-thickness: 2px;
+      outline: none;
+    }
+
     /* ── Buttons ── */
     .buttons {
       display: flex;
@@ -198,27 +213,28 @@
     <!-- Title -->
     <header>
       <h1>Beerio Derby '26
-        <span>Collect Your Winnings</span>
+        <span>Collect Your Winnings(?)</span>
       </h1>
     </header>
 
     <!-- Intro paragraph -->
     <p class="intro">
-      Wow, you guys are good at gambling. You made $271 net profit!
-      If you won money, I sent you a text+venmo containing the amount you made minus your buyin(s).
-      If you want to, send me any amount of that money back via Venmo (@jasonking19). I'll donate it to the Against Malaria Foundation, which provides bednets to protect against malaria.
-      I'll post a receipt for the donation here in a few days.
+      Wow, you guys sure are good at gambling. You made $271 net profit!
+      If you personally won money, I sent you a text+venmo containing the amount you made minus your buyin(s).
+      If you want to, send me any amount of that money back via Venmo (<a href="https://venmo.com/jasonking19" target="_blank" rel="noopener noreferrer">@jasonking19</a>).
+      I'll donate <strong>double the amount</strong> to the <a href="https://www.againstmalaria.com/" target="_blank" rel="noopener noreferrer">Against Malaria Foundation</a>, which provides bednets to protect against malaria.
+      Do this by Wednesday. I'll post a receipt for the donation here on Thursday. 
     </p>
 
     <!-- Two large circular buttons -->
     <div class="buttons">
-      <a href="#" class="btn-circle" role="button" aria-label="Start a new game">
-        <span class="btn-icon">🎮</span>
+      <a href="https://venmo.com/jasonking19" class="btn-circle" role="button" aria-label="Start a new game" target="_blank" rel="noopener noreferrer">
+        <span class="btn-icon"></span>
         Money Please!
       </a>
-      <a href="#" class="btn-circle" role="button" aria-label="View leaderboard">
+      <a href="https://venmo.com/jasonking19" class="btn-circle" role="button" aria-label="View leaderboard" target="_blank" rel="noopener noreferrer">
         <span class="btn-icon">🏆</span>
-        Malaria Bednets 
+        Malaria Bednets (Click to send me $) 
       </a>
     </div>
 
@@ -226,7 +242,7 @@
 
     <!-- FAQ -->
     <section class="faq" aria-labelledby="faq-heading">
-      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      <h2 id="faq-heading">FAQ</h2>
       <div class="faq-list">
 
         <details>
@@ -237,7 +253,7 @@
         </details>
 
         <details>
-          <summary>So you’re saying you’d rather donate $542 to a charity, than give $271 to your friends?</summary>
+          <summary>So you’re saying you’d rather donate $542 to a charity, than donate $271 to your friends?</summary>
           <p class="faq-answer">Yes.</p>
         </details>
 
@@ -247,13 +263,13 @@
         </details>
 
         <details>
-          <summary>Wait, is this just “Double it and give it to the next guy”?</summary>
+          <summary>Is this just “Double it and give it to the next guy”?</summary>
           <p class="faq-answer">Yes, if the next guy lived in sub-Sharan Africa.</p>
         </details>
 
         <details>
           <summary>Why the Against Malaria Foundation?</summary>
-          <p class="faq-answer">It's quite an effective charity https://www.givewell.org/charities/top-charities</p>
+          <p class="faq-answer">It's quite an effective charity <a href="https://www.givewell.org/charities/top-charities" target="_blank" rel="noopener noreferrer">https://www.givewell.org/charities/top-charities</a></p>
         </details>
 
         <details>
@@ -262,13 +278,13 @@
         </details>
 
         <details>
-          <summary>Whoa, I like the feeling of have leverage over another person’s money. How else can I do this?</summary>
-          <p class="faq-answer">Many companies will match donations/volunteer hours up to a certain amount. You might work for one. Check here: https://www.opensecrets.org/donate/employer-donation-matching</p>
+          <summary>Whoa, I like the feeling of have leverage over another person’s money. It makes me feel powerful. How else can I do this?</summary>
+          <p class="faq-answer">Many companies will match donations/volunteer hours up to a certain amount. You might work for one. Check here: <a href="https://www.opensecrets.org/donate/employer-donation-matching" target="_blank" rel="noopener noreferrer">https://www.opensecrets.org/donate/employer-donation-matching</a></p>
         </details>
 
         <details>
           <summary>What’s the most tax efficient and impactful method to donate to causes I care about?</summary>
-          <p class="faq-answer"> Donating appreciated stock (as opposed to cash). You get to avoid capital gains tax. Everyone wins. Check here: https://donatestock.com</p>
+          <p class="faq-answer"> Donating appreciated stock (as opposed to cash). You get to avoid capital gains tax. Everyone wins. Check here: <a href="https://donatestock.com" target="_blank" rel="noopener noreferrer">https://donatestock.com</a></p>
         </details>
 
       </div>
