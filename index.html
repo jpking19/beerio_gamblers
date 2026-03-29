@@ -249,9 +249,12 @@
     <p class="intro">
       Wow, you guys sure are good at gambling. You made $271 net profit!
       If you personally won money, I sent you a text+venmo containing the amount you made minus your buyin(s).
+      <br>
       If you want to, send me any amount of that money back via Venmo (<a href="https://venmo.com/jasonking19" target="_blank" rel="noopener noreferrer">@jasonking19</a>).
       I'll donate <strong>double the amount</strong> to the <a href="https://www.againstmalaria.com/" target="_blank" rel="noopener noreferrer">Against Malaria Foundation</a>, which provides bednets to protect against malaria.
-      Do this by Wednesday. I'll post a receipt for the donation here on Thursday. 
+      Do this by Wednesday.
+      <br>
+      I'll post a receipt for the donation here on Thursday.
     </p>
 
     <!-- Two large circular buttons -->
@@ -272,15 +275,15 @@
       <div class="faq-list">
 
         <details>
+          <summary>So you’re saying you’d rather donate $542 to a charity, than donate $271 to your friends?</summary>
+          <p class="faq-answer">Yes.</p>
+        </details>
+
+        <details>
           <summary>But I earned this money. I want to keep it.</summary>
           <p class="faq-answer">
             You sure did, buddy. And you can, just don't venmo me it back.
           </p>
-        </details>
-
-        <details>
-          <summary>So you’re saying you’d rather donate $542 to a charity, than donate $271 to your friends?</summary>
-          <p class="faq-answer">Yes.</p>
         </details>
 
         <details>
@@ -329,7 +332,7 @@
       const layer = document.querySelector('.money-rain-layer');
       if (!moneyButton || !layer) return;
 
-      const moneyEmojis = ['💸', '💰', '🪙'];
+      const moneyEmojis = ['💵', '💴', '💶', '💷'];
       let clickCount = 0;
 
       function spawnMoney(count) {
