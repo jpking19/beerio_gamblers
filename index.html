@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beerio Gamblers</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #1a0a00;
+      color: #f5e6c8;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      padding: 2.5rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      color: #ffc043;
+      text-shadow: 0 2px 12px rgba(255, 160, 0, 0.4);
+      line-height: 1.15;
+    }
+
+    header h1 span {
+      display: block;
+      font-size: 0.45em;
+      font-weight: 600;
+      color: #e8c97a;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.25em;
+    }
+
+    /* ── Intro ── */
+    .intro {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 192, 67, 0.2);
+      border-radius: 1rem;
+      padding: 1.5rem 1.75rem;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      text-align: center;
+      color: #f0dcb0;
+    }
+
+    /* ── Buttons ── */
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .btn-circle {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 3px solid #ffc043;
+      background: linear-gradient(145deg, #2e1700, #4a2500);
+      color: #ffc043;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      box-shadow: 0 4px 20px rgba(255, 160, 0, 0.25);
+      text-align: center;
+      padding: 1rem;
+      line-height: 1.3;
+    }
+
+    .btn-circle:hover,
+    .btn-circle:focus {
+      transform: scale(1.08);
+      box-shadow: 0 6px 32px rgba(255, 160, 0, 0.55);
+      background: linear-gradient(145deg, #3d1f00, #6a3800);
+      outline: none;
+    }
+
+    .btn-circle .btn-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    /* ── Divider ── */
+    hr {
+      width: 100%;
+      border: none;
+      border-top: 1px solid rgba(255, 192, 67, 0.2);
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      width: 100%;
+    }
+
+    .faq h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffc043;
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    details {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 192, 67, 0.18);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: background 0.15s ease;
+    }
+
+    details[open] {
+      background: rgba(255, 192, 67, 0.07);
+    }
+
+    summary {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #f5e6c8;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: #ffc043;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+
+    details[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 1.25rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #d9c49a;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 400px) {
+      .btn-circle {
+        width: 140px;
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Title -->
+    <header>
+      <h1>🍺 Beerio Gamblers
+        <span>Bet. Race. Drink.</span>
+      </h1>
+    </header>
+
+    <!-- Intro paragraph -->
+    <p class="intro">
+      Welcome to <strong>Beerio Gamblers</strong> — where Mario Kart meets friendly wagering.
+      Place bets on your friends, watch the chaos unfold on the track, and see who comes out
+      on top (and who has to finish their drink). Every race is a new chance to win big or
+      go home thirsty.
+    </p>
+
+    <!-- Two large circular buttons -->
+    <div class="buttons">
+      <a href="#" class="btn-circle" role="button" aria-label="Start a new game">
+        <span class="btn-icon">🎮</span>
+        Start New Game
+      </a>
+      <a href="#" class="btn-circle" role="button" aria-label="View leaderboard">
+        <span class="btn-icon">🏆</span>
+        Leaderboard
+      </a>
+    </div>
+
+    <hr />
+
+    <!-- FAQ -->
+    <section class="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      <div class="faq-list">
+
+        <details>
+          <summary>What is Beerio Gamblers?</summary>
+          <p class="faq-answer">
+            Beerio Gamblers is a friendly betting game built around Mario Kart races.
+            Players place wagers before each race and watch the results live — the more
+            chaotic the race, the more fun the bets.
+          </p>
+        </details>
+
+        <details>
+          <summary>How do I start a game?</summary>
+          <p class="faq-answer">
+            Hit the <strong>Start New Game</strong> button above, set up your players,
+            and assign bet amounts before each race begins. The game tracks everything
+            automatically so you can focus on racing (and drinking).
+          </p>
+        </details>
+
+        <details>
+          <summary>How are bets calculated?</summary>
+          <p class="faq-answer">
+            Each player picks a racer and bets a set number of tokens. Payouts are
+            determined by finishing position — first place pays out the most, while last
+            place loses their stake. Side bets on specific outcomes (blue shell, longest
+            drift, etc.) are also supported.
+          </p>
+        </details>
+
+        <details>
+          <summary>Is this for real money?</summary>
+          <p class="faq-answer">
+            Nope! Beerio Gamblers uses a virtual token system purely for fun. No real
+            money ever changes hands — just bragging rights and maybe a round of drinks.
+          </p>
+        </details>
+
+        <details>
+          <summary>What's the drinking component?</summary>
+          <p class="faq-answer">
+            The classic Beerio Kart rule applies: you must finish your drink before you
+            cross the finish line, but you can't drink while the kart is moving. Gambling
+            adds an extra layer — the player who loses the most tokens each round takes a
+            penalty sip. Always drink responsibly and play within your limits.
+          </p>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
