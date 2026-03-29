@@ -139,19 +139,12 @@
     }
 
     .money-emoji {
-      position: absolute;
-      top: -12vh;
-      left: var(--x);
-      transform: translate3d(0, -12vh, 0) rotate(0deg);
-      animation: money-fall var(--duration) linear forwards;
+      position: fixed;
+      top: -60px;
+      left: 0;
+      transform: translate3d(0, 0, 0);
       will-change: transform;
       user-select: none;
-    }
-
-    @keyframes money-fall {
-      to {
-        transform: translate3d(var(--drift), 112vh, 0) rotate(var(--rot));
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -345,23 +338,36 @@
           emoji.className = 'money-emoji';
           emoji.textContent = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
 
-          const x = (Math.random() * 100).toFixed(2) + 'vw';
-          const drift = (Math.random() * 120 - 60).toFixed(0) + 'px';
-          const duration = (Math.random() * 1.8 + 1.8).toFixed(2) + 's';
-          const rotation = (Math.random() * 900 + 180).toFixed(0) + 'deg';
-          const size = (Math.random() * 18 + 18).toFixed(0) + 'px';
+          const x = Math.random() * window.innerWidth;
+          const drift = Math.random() * 140 - 70;
+          const durationMs = Math.floor((Math.random() * 1.8 + 1.8) * 1000);
+          const rotation = Math.random() * 900 + 180;
+          const size = Math.floor(Math.random() * 18 + 18);
+          const startY = -80;
+          const endY = window.innerHeight + 120;
 
-          emoji.style.setProperty('--x', x);
-          emoji.style.setProperty('--drift', drift);
-          emoji.style.setProperty('--duration', duration);
-          emoji.style.setProperty('--rot', rotation);
-          emoji.style.fontSize = size;
-
-          emoji.addEventListener('animationend', () => {
-            emoji.remove();
-          });
+          emoji.style.left = x + 'px';
+          emoji.style.fontSize = size + 'px';
 
           layer.appendChild(emoji);
+
+          if (typeof emoji.animate === 'function') {
+            const animation = emoji.animate(
+              [
+                { transform: `translate3d(0px, ${startY}px, 0) rotate(0deg)` },
+                { transform: `translate3d(${drift}px, ${endY}px, 0) rotate(${rotation}deg)` }
+              ],
+              {
+                duration: durationMs,
+                easing: 'linear',
+                fill: 'forwards'
+              }
+            );
+            animation.addEventListener('finish', () => emoji.remove());
+          } else {
+            // Fallback: if WAAPI isn't available, just remove after a bit.
+            setTimeout(() => emoji.remove(), durationMs + 200);
+          }
         }
       }
 
