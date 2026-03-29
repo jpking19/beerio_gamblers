@@ -66,6 +66,29 @@
       color: #f0dcb0;
     }
 
+    .highlight {
+      display: inline-block;
+      padding: 0.08em 0.4em;
+      border-radius: 0.7em;
+      background: rgba(255, 192, 67, 0.12);
+      border: 1px solid rgba(255, 192, 67, 0.28);
+      color: #ffc043;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .pop {
+      transform-origin: center;
+      animation: pop 720ms cubic-bezier(0.2, 0.9, 0.25, 1.2) both;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.14); }
+      70% { transform: scale(0.99); }
+      100% { transform: scale(1); }
+    }
+
     .intro a,
     .faq-answer a {
       color: #ffc043;
@@ -150,6 +173,10 @@
     @media (prefers-reduced-motion: reduce) {
       .money-rain-layer {
         display: none;
+      }
+
+      .pop {
+        animation: none;
       }
     }
 
@@ -247,14 +274,12 @@
 
     <!-- Intro paragraph -->
     <p class="intro">
-      Wow, you guys sure are good at gambling. You made $271 net profit!
+      Wow, you guys sure are good at gambling. You made <span class="highlight pop">$271</span> net profit!
       If you personally won money, I sent you a text+venmo containing the amount you made minus your buyin(s).
-      <br>
+      <br><br>
       If you want to, send me any amount of that money back via Venmo (<a href="https://venmo.com/jasonking19" target="_blank" rel="noopener noreferrer">@jasonking19</a>).
-      I'll donate <strong>double the amount</strong> to the <a href="https://www.againstmalaria.com/" target="_blank" rel="noopener noreferrer">Against Malaria Foundation</a>, which provides bednets to protect against malaria.
-      Do this by Wednesday.
-      <br>
-      I'll post a receipt for the donation here on Thursday.
+      I'll donate <strong class="highlight pop">double the amount</strong> to the <a href="https://www.againstmalaria.com/" target="_blank" rel="noopener noreferrer">Against Malaria Foundation</a>, which provides bednets to protect against malaria.
+      Do this by Wednesday. I'll post a receipt for the donation here on Thursday.
     </p>
 
     <!-- Two large circular buttons -->
@@ -263,7 +288,7 @@
         Money Please!
       </button>
       <a href="https://venmo.com/jasonking19" class="btn-circle" role="button" target="_blank" rel="noopener noreferrer">
-        Malaria Bednets (Click to send me $) 
+        Malaria Bednets Please! 
       </a>
     </div>
 
@@ -299,11 +324,6 @@
         <details>
           <summary>Why the Against Malaria Foundation?</summary>
           <p class="faq-answer">It's quite an effective charity <a href="https://www.givewell.org/charities/top-charities" target="_blank" rel="noopener noreferrer">https://www.givewell.org/charities/top-charities</a></p>
-        </details>
-
-        <details>
-          <summary>Wait, was Beerio Derby '26 a fundraiser?</summary>
-          <p class="faq-answer">Idk, good question, kinda? Retroactively?</p>
         </details>
 
         <details>
