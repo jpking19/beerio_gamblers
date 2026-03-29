@@ -259,12 +259,10 @@
 
     <!-- Two large circular buttons -->
     <div class="buttons">
-      <a id="money-please" class="btn-circle" role="button" target="_blank" rel="noopener noreferrer">
-        <span class="btn-icon"></span>
+      <a id="money-please" href="https://venmo.com/jasonking19" class="btn-circle" role="button" aria-label="Send money on Venmo" target="_blank" rel="noopener noreferrer">
         Money Please!
       </a>
       <a href="https://venmo.com/jasonking19" class="btn-circle" role="button" target="_blank" rel="noopener noreferrer">
-        <span class="btn-icon">🏆</span>
         Malaria Bednets (Click to send me $) 
       </a>
     </div>
@@ -363,12 +361,23 @@
         }
       }
 
-      moneyButton.addEventListener('click', () => {
+      let lastTriggerAt = 0;
+      function triggerMoneyRain() {
+        const now = Date.now();
+        if (now - lastTriggerAt < 350) return;
+        lastTriggerAt = now;
+
         clickCount += 1;
         const base = 18;
         const ramp = 10;
         const count = Math.min(base + clickCount * ramp, 180);
         spawnMoney(count);
+      }
+
+      moneyButton.addEventListener('pointerdown', triggerMoneyRain);
+      moneyButton.addEventListener('click', triggerMoneyRain);
+      moneyButton.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') triggerMoneyRain();
       });
     })();
   </script>
