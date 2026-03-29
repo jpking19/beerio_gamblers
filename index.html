@@ -125,6 +125,37 @@
       line-height: 1;
     }
 
+    /* ── Money Rain ── */
+    .money-rain-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .money-emoji {
+      position: fixed;
+      top: -12vh;
+      left: 0;
+      transform: translate3d(var(--x), -12vh, 0) rotate(0deg);
+      animation: money-fall var(--duration) linear forwards;
+      will-change: transform;
+      user-select: none;
+    }
+
+    @keyframes money-fall {
+      to {
+        transform: translate3d(calc(var(--x) + var(--drift)), 112vh, 0) rotate(var(--rot));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .money-rain-layer {
+        display: none;
+      }
+    }
+
     /* ── Divider ── */
     hr {
       width: 100%;
@@ -228,7 +259,7 @@
 
     <!-- Two large circular buttons -->
     <div class="buttons">
-      <a href="https://venmo.com/jasonking19" class="btn-circle" role="button" aria-label="Start a new game" target="_blank" rel="noopener noreferrer">
+      <a id="money-please" href="https://venmo.com/jasonking19" class="btn-circle" role="button" aria-label="Start a new game" target="_blank" rel="noopener noreferrer">
         <span class="btn-icon"></span>
         Money Please!
       </a>
@@ -291,5 +322,55 @@
     </section>
 
   </div>
+
+  <div class="money-rain-layer" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) return;
+
+      const moneyButton = document.getElementById('money-please');
+      const layer = document.querySelector('.money-rain-layer');
+      if (!moneyButton || !layer) return;
+
+      const moneyEmojis = ['💸', '💰', '🪙'];
+      let clickCount = 0;
+
+      function spawnMoney(count) {
+        for (let i = 0; i < count; i++) {
+          const emoji = document.createElement('span');
+          emoji.className = 'money-emoji';
+          emoji.textContent = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
+
+          const x = (Math.random() * 100).toFixed(2) + 'vw';
+          const drift = (Math.random() * 120 - 60).toFixed(0) + 'px';
+          const duration = (Math.random() * 1.8 + 1.8).toFixed(2) + 's';
+          const rotation = (Math.random() * 900 + 180).toFixed(0) + 'deg';
+          const size = (Math.random() * 18 + 18).toFixed(0) + 'px';
+
+          emoji.style.setProperty('--x', x);
+          emoji.style.setProperty('--drift', drift);
+          emoji.style.setProperty('--duration', duration);
+          emoji.style.setProperty('--rot', rotation);
+          emoji.style.fontSize = size;
+
+          emoji.addEventListener('animationend', () => {
+            emoji.remove();
+          });
+
+          layer.appendChild(emoji);
+        }
+      }
+
+      moneyButton.addEventListener('click', () => {
+        clickCount += 1;
+        const base = 18;
+        const ramp = 10;
+        const count = Math.min(base + clickCount * ramp, 180);
+        spawnMoney(count);
+      });
+    })();
+  </script>
 </body>
 </html>
