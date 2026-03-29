@@ -62,7 +62,7 @@
       padding: 1.5rem 1.75rem;
       font-size: 1.05rem;
       line-height: 1.75;
-      text-align: center;
+      text-align: left;
       color: #f0dcb0;
     }
 
@@ -394,6 +394,48 @@
       moneyButton.addEventListener('click', triggerMoneyRain);
       moneyButton.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') triggerMoneyRain();
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      function isIOS() {
+        const ua = navigator.userAgent || '';
+        const iOSUA = /iPad|iPhone|iPod/.test(ua);
+        const iPadOS13Plus = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+        return iOSUA || iPadOS13Plus;
+      }
+
+      if (!isIOS()) return;
+
+      const venmoAnchors = document.querySelectorAll('a[href^="https://venmo.com/"]');
+      if (!venmoAnchors.length) return;
+
+      venmoAnchors.forEach((anchor) => {
+        anchor.addEventListener('click', (event) => {
+          const href = anchor.getAttribute('href');
+          if (!href) return;
+
+          const match = href.match(/^https:\/\/venmo\.com\/([^/?#]+)/i);
+          if (!match) return;
+
+          // Try to open the Venmo app first; fallback to web.
+          const username = match[1];
+          const deepLink = `venmo://paycharge?txn=pay&recipients=${encodeURIComponent(username)}`;
+
+          event.preventDefault();
+
+          const start = Date.now();
+          window.location.href = deepLink;
+
+          setTimeout(() => {
+            // If the app didn't open, we should still be here.
+            if (Date.now() - start < 1500) {
+              window.location.href = href;
+            }
+          }, 900);
+        });
       });
     })();
   </script>
