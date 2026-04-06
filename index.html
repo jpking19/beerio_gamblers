@@ -253,6 +253,97 @@
       color: #d9c49a;
     }
 
+    /* ── Receipts ── */
+    .receipts {
+      width: 100%;
+      background: rgba(255, 192, 67, 0.08);
+      border: 1px solid rgba(255, 192, 67, 0.25);
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .receipts h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffc043;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .receipt-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .receipt-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 0.5rem;
+    }
+
+    .receipt-list .amount {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #ffc043;
+    }
+
+    .receipt-list a {
+      color: #ffc043;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .receipt-list a:hover,
+    .receipt-list a:focus {
+      text-decoration-thickness: 2px;
+      outline: none;
+    }
+
+    /* ── Total Donated ── */
+    .total-donated {
+      width: 100%;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: radial-gradient(ellipse at center, rgba(255, 192, 67, 0.12) 0%, transparent 70%);
+    }
+
+    .total-donated .label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #e8c97a;
+      margin-bottom: 0.25rem;
+    }
+
+    .total-donated .amount {
+      font-size: clamp(3rem, 12vw, 5.5rem);
+      font-weight: 900;
+      color: #ffc043;
+      text-shadow: 0 0 28px rgba(255, 180, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .total-donated .sub {
+      font-size: 0.9rem;
+      color: #d9c49a;
+      margin-top: 0.35rem;
+    }
+
+    .total-donated .sub a {
+      color: #ffc043;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 400px) {
       .btn-circle {
@@ -271,6 +362,32 @@
         <span>Collect Your Winnings(?)</span>
       </h1>
     </header>
+
+    <!-- Donation Receipts -->
+    <section class="receipts" aria-label="Donation receipts">
+      <h2>🧾 Donation Receipts</h2>
+      <ul class="receipt-list">
+        <li>
+          <span class="amount">$270</span>
+          <a href="donation_receipts/givewell_clear_fund.pdf" target="_blank" rel="noopener noreferrer">View Receipt →</a>
+        </li>
+        <li>
+          <span class="amount">$70</span>
+          <a href="donation_receipts/worcester_habitat_for_humanity.pdf" target="_blank" rel="noopener noreferrer">View Receipt →</a>
+        </li>
+        <li>
+          <span class="amount">$216</span>
+          <a href="https://profile.pmc.org/LM0507" target="_blank" rel="noopener noreferrer">View Receipt →</a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Total Donated -->
+    <div class="total-donated" aria-label="Total amount donated">
+      <p class="label">Total Donated</p>
+      <p class="amount highlight pop">$556</p>
+      <p class="sub">to the <a href="https://www.againstmalaria.com/" target="_blank" rel="noopener noreferrer">Against Malaria Foundation</a></p>
+    </div>
 
     <!-- Intro paragraph -->
     <p class="intro">
