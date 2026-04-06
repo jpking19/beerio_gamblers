@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beerio Derby Cash Counter</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #1a0a00;
+      color: #f5e6c8;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      padding: 2.5rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      color: #ffc043;
+      text-shadow: 0 2px 12px rgba(255, 160, 0, 0.4);
+      line-height: 1.15;
+    }
+
+    header h1 span {
+      display: block;
+      font-size: 0.45em;
+      font-weight: 600;
+      color: #e8c97a;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.25em;
+    }
+
+    /* ── Intro ── */
+    .intro {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 192, 67, 0.2);
+      border-radius: 1rem;
+      padding: 1.5rem 1.75rem;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      text-align: left;
+      color: #f0dcb0;
+    }
+
+    .highlight {
+      display: inline-block;
+      padding: 0.08em 0.4em;
+      border-radius: 0.7em;
+      background: rgba(255, 192, 67, 0.12);
+      border: 1px solid rgba(255, 192, 67, 0.28);
+      color: #ffc043;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .pop {
+      transform-origin: center;
+      animation: pop 720ms cubic-bezier(0.2, 0.9, 0.25, 1.2) both;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.14); }
+      70% { transform: scale(0.99); }
+      100% { transform: scale(1); }
+    }
+
+    .intro a,
+    .faq-answer a {
+      color: #ffc043;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
+    .intro a:hover,
+    .intro a:focus,
+    .faq-answer a:hover,
+    .faq-answer a:focus {
+      text-decoration-thickness: 2px;
+      outline: none;
+    }
+
+    /* ── Buttons ── */
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .btn-circle {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 3px solid #ffc043;
+      background: linear-gradient(145deg, #2e1700, #4a2500);
+      color: #ffc043;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      box-shadow: 0 4px 20px rgba(255, 160, 0, 0.25);
+      text-align: center;
+      padding: 1rem;
+      line-height: 1.3;
+      font-family: inherit;
+    }
+
+    .btn-circle:hover,
+    .btn-circle:focus {
+      transform: scale(1.08);
+      box-shadow: 0 6px 32px rgba(255, 160, 0, 0.55);
+      background: linear-gradient(145deg, #3d1f00, #6a3800);
+      outline: none;
+    }
+
+    .btn-circle .btn-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    /* ── Money Rain ── */
+    .money-rain-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 999;
+      transform: translateZ(0);
+    }
+
+    .money-emoji {
+      position: fixed;
+      top: -60px;
+      left: 0;
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+      user-select: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .money-rain-layer {
+        display: none;
+      }
+
+      .pop {
+        animation: none;
+      }
+    }
+
+    /* ── Divider ── */
+    hr {
+      width: 100%;
+      border: none;
+      border-top: 1px solid rgba(255, 192, 67, 0.2);
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      width: 100%;
+    }
+
+    .faq h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffc043;
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    details {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 192, 67, 0.18);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: background 0.15s ease;
+    }
+
+    details[open] {
+      background: rgba(255, 192, 67, 0.07);
+    }
+
+    summary {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #f5e6c8;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: #ffc043;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+
+    details[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 1.25rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #d9c49a;
+    }
+
+    /* ── Receipts ── */
+    .receipts {
+      width: 100%;
+      background: rgba(255, 192, 67, 0.08);
+      border: 1px solid rgba(255, 192, 67, 0.25);
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .receipts h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffc043;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .receipt-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .receipt-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 0.5rem;
+    }
+
+    .receipt-list .amount {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #ffc043;
+    }
+
+    .receipt-list a {
+      color: #ffc043;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .receipt-list a:hover,
+    .receipt-list a:focus {
+      text-decoration-thickness: 2px;
+      outline: none;
+    }
+
+    /* ── Total Donated ── */
+    .total-donated {
+      width: 100%;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: radial-gradient(ellipse at center, rgba(255, 192, 67, 0.12) 0%, transparent 70%);
+    }
+
+    .total-donated .label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #e8c97a;
+      margin-bottom: 0.25rem;
+    }
+
+    .total-donated .amount {
+      font-size: clamp(3rem, 12vw, 5.5rem);
+      font-weight: 900;
+      color: #ffc043;
+      text-shadow: 0 0 28px rgba(255, 180, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .total-donated .sub {
+      font-size: 0.9rem;
+      color: #d9c49a;
+      margin-top: 0.35rem;
+    }
+
+    .total-donated .sub a {
+      color: #ffc043;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 400px) {
+      .btn-circle {
+        width: 140px;
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Title -->
+    <header>
+      <h1>Beerio Derby '26
+        <span>Collect Your Winnings(?)</span>
+      </h1>
+    </header>
+
+    <!-- Donation Receipts -->
+    <section class="receipts" aria-label="Donation receipts">
+      <h2>🧾 Donation Receipts</h2>
+      <ul class="receipt-list">
+        <li>
+          <span class="amount">$270</span>
+          <a href="donation_receipts/givewell_clear_fund.pdf" target="_blank" rel="noopener noreferrer">Against Malaria Foundation (View Receipt) →</a>
+        </li>
+        <li>
+          <span class="amount">$70</span>
+          <a href="donation_receipts/worcester_habitat_for_humanity.pdf" target="_blank" rel="noopener noreferrer">Worcester Habitat for Humanity (View Receipt) →</a>
+        </li>
+        <li>
+          <span class="amount">$216</span>
+          <a href="https://profile.pmc.org/LM0507" target="_blank" rel="noopener noreferrer">Pan Mass Challenge Dana-Farber (No Receipt trust me pls)</a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Total Donated -->
+    <div class="total-donated" aria-label="Total amount donated">
+      <p class="label">Total Donated</p>
+      <p class="amount highlight pop">$556</p>
+      <p class="sub">to various charities, very nice everyone.
+    </div>
+
+    <hr />
+
+    <!-- Intro paragraph -->
+    <p class="intro">
+      Wow, you guys sure are good at gambling. You made <span class="highlight pop">$271</span> net profit!
+      If you individually came out on top, I sent you a text+venmo with your winnings + inital buy-in.
+      <br><br>
+      If you want to, send me any amount of your winnings back via Venmo (<a href="https://venmo.com/jasonking19" target="_blank" rel="noopener noreferrer">@jasonking19</a>).
+      I'll donate <strong class="highlight pop">double that collective amount</strong> to the <a href="https://www.againstmalaria.com/" target="_blank" rel="noopener noreferrer">Against Malaria Foundation</a>, which provides bednets to protect against malaria.
+      Do this by Wednesday. I'll post a receipt for the donation here on Thursday.
+    </p>
+
+    <!-- Two large circular buttons -->
+    <div class="buttons">
+      <button id="money-please" class="btn-circle" type="button" aria-label="Make it rain money">
+        Money Please!
+      </button>
+      <a href="https://venmo.com/jasonking19" class="btn-circle" role="button" target="_blank" rel="noopener noreferrer">
+        Malaria Bednets Please! 
+      </a>
+    </div>
+
+    <hr />
+
+    <!-- FAQ -->
+    <section class="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">FAQ</h2>
+      <div class="faq-list">
+
+        <details>
+          <summary>So you’re saying you’d rather donate $542 to a charity, than donate $271 to your friends?</summary>
+          <p class="faq-answer">Yes.</p>
+        </details>
+
+        <details>
+          <summary>But I earned this money. I want to keep it.</summary>
+          <p class="faq-answer">
+            You sure did, buddy. And you can, just don't venmo me it back.
+          </p>
+        </details>
+
+        <details>
+          <summary>Is this performative philanthropy?</summary>
+          <p class="faq-answer">Yes.</p>
+        </details>
+
+        <details>
+          <summary>Is this just “Double it and give it to the next guy”?</summary>
+          <p class="faq-answer">Yes, if the next guy lived in sub-Sharan Africa.</p>
+        </details>
+
+        <details>
+          <summary>Why the Against Malaria Foundation?</summary>
+          <p class="faq-answer">It's an effective charity. <a href="https://www.givewell.org/charities/top-charities" target="_blank" rel="noopener noreferrer">https://www.givewell.org/charities/top-charities</a></p>
+        </details>
+
+        <details>
+          <summary>I like the feeling of have leverage over another person’s money. It makes me feel powerful. How else can I do this?</summary>
+          <p class="faq-answer">If you enjoyed cucking me philanthropically, you should consider cucking your W2 employer. Many companies will match donations/volunteer hours up to a certain amount. You might work for one. <a href="https://www.opensecrets.org/donate/employer-donation-matching" target="_blank" rel="noopener noreferrer">https://www.opensecrets.org/donate/employer-donation-matching</a></p>
+        </details>
+
+        <details>
+          <summary>What’s the most tax efficient and impactful method to donate to causes I care about?</summary>
+          <p class="faq-answer"> Donating appreciated stock (as opposed to cash). You get to avoid capital gains tax. This is good bc you pay less money to the US government, and also have more money. Everyone wins. <a href="https://donatestock.com" target="_blank" rel="noopener noreferrer">https://donatestock.com</a></p>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+
+  <div class="money-rain-layer" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) return;
+
+      const moneyButton = document.getElementById('money-please');
+      const layer = document.querySelector('.money-rain-layer');
+      if (!moneyButton || !layer) return;
+
+      const moneyEmojis = ['💵', '💴', '💶', '💷'];
+      let clickCount = 0;
+
+      function spawnMoney(count) {
+        for (let i = 0; i < count; i++) {
+          const emoji = document.createElement('span');
+          emoji.className = 'money-emoji';
+          emoji.textContent = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
+
+          const x = Math.random() * window.innerWidth;
+          const drift = Math.random() * 140 - 70;
+          const durationMs = Math.floor((Math.random() * 1.8 + 1.8) * 1000);
+          const rotation = Math.random() * 900 + 180;
+          const size = Math.floor(Math.random() * 18 + 18);
+          const startY = -80;
+          const endY = window.innerHeight + 120;
+
+          emoji.style.left = x + 'px';
+          emoji.style.fontSize = size + 'px';
+
+          layer.appendChild(emoji);
+
+          if (typeof emoji.animate === 'function') {
+            const animation = emoji.animate(
+              [
+                { transform: `translate3d(0px, ${startY}px, 0) rotate(0deg)` },
+                { transform: `translate3d(${drift}px, ${endY}px, 0) rotate(${rotation}deg)` }
+              ],
+              {
+                duration: durationMs,
+                easing: 'linear',
+                fill: 'forwards'
+              }
+            );
+            animation.addEventListener('finish', () => emoji.remove());
+          } else {
+            // Fallback: if WAAPI isn't available, just remove after a bit.
+            setTimeout(() => emoji.remove(), durationMs + 200);
+          }
+        }
+      }
+
+      let lastTriggerAt = 0;
+      function triggerMoneyRain() {
+        const now = Date.now();
+        if (now - lastTriggerAt < 350) return;
+        lastTriggerAt = now;
+
+        clickCount += 1;
+        const base = 18;
+        const ramp = 10;
+        const count = Math.min(base + clickCount * ramp, 180);
+        spawnMoney(count);
+      }
+
+      // iOS Safari: trigger on touchstart so the animation appears before navigation.
+      moneyButton.addEventListener('touchstart', triggerMoneyRain, { passive: true });
+      moneyButton.addEventListener('mousedown', triggerMoneyRain);
+      moneyButton.addEventListener('pointerdown', triggerMoneyRain);
+      moneyButton.addEventListener('click', triggerMoneyRain);
+      moneyButton.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') triggerMoneyRain();
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      function isIOS() {
+        const ua = navigator.userAgent || '';
+        const iOSUA = /iPad|iPhone|iPod/.test(ua);
+        const iPadOS13Plus = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+        return iOSUA || iPadOS13Plus;
+      }
+
+      if (!isIOS()) return;
+
+      const venmoAnchors = document.querySelectorAll('a[href^="https://venmo.com/"]');
+      if (!venmoAnchors.length) return;
+
+      venmoAnchors.forEach((anchor) => {
+        anchor.addEventListener('click', (event) => {
+          const href = anchor.getAttribute('href');
+          if (!href) return;
+
+          const match = href.match(/^https:\/\/venmo\.com\/([^/?#]+)/i);
+          if (!match) return;
+
+          // Try to open the Venmo app first; fallback to web.
+          const username = match[1];
+          const deepLink = `venmo://paycharge?txn=pay&recipients=${encodeURIComponent(username)}`;
+
+          event.preventDefault();
+
+          const start = Date.now();
+          window.location.href = deepLink;
+
+          setTimeout(() => {
+            // If the app didn't open, we should still be here.
+            if (Date.now() - start < 1500) {
+              window.location.href = href;
+            }
+          }, 900);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
